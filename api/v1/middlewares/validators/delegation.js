@@ -2,6 +2,7 @@ const { query, param, validationResult } = require('express-validator');
 const errors = require('../../../../mixins/errors');
 const brI18n = require('../../../../mixins/badRequestI18n');
 const fantomRPC = require('../../../../mixins/fantomRPC');
+const hexFieldsToDecimals = require('../../../../mixins/nodeRawRpcHexFieldsToDecimals');
 
 module.exports.get = (req, res, next) => [
   query('verbosity')
@@ -13,19 +14,23 @@ module.exports.get = (req, res, next) => [
     .isLength({ min: 42, max: 42 }).bail().withMessage(`stringLength42`)
     .customSanitizer(address => address.toLowerCase())
     .custom(async (address, { req }) => {
-      const method = `sfc_getDelegation`;
+      const method = `sfc_getDelegationsByAddress`;
 
       const verbosity = req.query.verbosity ? req.query.verbosity : 1;
       const verbosityHex = `0x` + verbosity.toString(16);
 
       const params = [address, verbosityHex];
       const reqId = 1; // required by fantom node rpc-api, intended for request accounting (this ability not using now)
-      const delegation = await fantomRPC({ method, params, id: reqId });
+      const delegations = await fantomRPC({ method, params, id: reqId });
 
-      if (delegation.result === null) return Promise.reject();
-      if (delegation.error) return Promise.reject(delegation.error.message);
+      if (delegations.result === null) return Promise.reject();
+      if (delegations.error) return Promise.reject(delegations.error.message);
 
-      req.foundDelegation = delegation.result;
+      delegations.result.forEach(obj=> {
+          hexFieldsToDecimals(obj);
+      })
+
+      req.foundDelegations = delegations.result;
       return true;
     })
     .withMessage('notFound'),
