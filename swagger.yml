@@ -355,9 +355,9 @@ paths:
     servers:
       - url: 'http://3.136.216.35:3100'
       
-  /api/v1/delegator/address/{address}:
+  /api/v1/delegation/address/{address}:
     get:
-      description: Returns delegator by its address
+      description: Returns delegation by its address
       parameters:
         - name: address
           in: path
@@ -382,18 +382,18 @@ paths:
                   meta:
                     $ref: '#/components/schemas/meta'
                   data:
-                    $ref: '#/components/schemas/DelegatorObject'
+                    $ref: '#/components/schemas/DelegationObject'
       servers:
         - url: 'http://3.136.216.35:3100'
-      summary: Delegator by address
+      summary: Delegation by address
       tags:
-        - delegator
+        - delegation
     servers:
       - url: 'http://3.136.216.35:3100'
       
-  /api/v1/delegator/staker/{id}:
+  /api/v1/delegation/staker/{id}:
     get:
-      description: Returns all the delegators which delegated to the specified staker.
+      description: Returns all the delegations which delegated to the specified staker.
       parameters:
         - name: id
           in: path
@@ -420,15 +420,15 @@ paths:
                   data:
                     type: object
                     properties:
-                      delegators:
+                      delegations:
                         type: array
                         items:
-                          $ref: '#/components/schemas/DelegatorObject'
+                          $ref: '#/components/schemas/DelegationObject'
       servers:
         - url: 'http://3.136.216.35:3100'
-      summary: Delegators by staker id
+      summary: Delegations by staker id
       tags:
-        - delegator
+        - delegation
     servers:
       - url: 'http://3.136.216.35:3100'
 
@@ -840,7 +840,7 @@ components:
           type: string
         location:
           type: string
-    DelegatorObject:
+    DelegationObject:
       type: object
       properties:
         address:
@@ -878,7 +878,7 @@ components:
           type: string
         delegatedMe:
           type: string
-        delegatorsClaimedRewards:
+        delegationsClaimedRewards:
           type: string
         downtime:
           type: string

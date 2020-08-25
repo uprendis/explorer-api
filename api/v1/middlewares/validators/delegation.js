@@ -13,19 +13,19 @@ module.exports.get = (req, res, next) => [
     .isLength({ min: 42, max: 42 }).bail().withMessage(`stringLength42`)
     .customSanitizer(address => address.toLowerCase())
     .custom(async (address, { req }) => {
-      const method = `sfc_getDelegator`;   
+      const method = `sfc_getDelegation`;
 
       const verbosity = req.query.verbosity ? req.query.verbosity : 1;
       const verbosityHex = `0x` + verbosity.toString(16);
 
       const params = [address, verbosityHex];
       const reqId = 1; // required by fantom node rpc-api, intended for request accounting (this ability not using now)
-      const delegator = await fantomRPC({ method, params, id: reqId });
+      const delegation = await fantomRPC({ method, params, id: reqId });
 
-      if (delegator.result === null) return Promise.reject();
-      if (delegator.error) return Promise.reject(delegator.error.message);
+      if (delegation.result === null) return Promise.reject();
+      if (delegation.error) return Promise.reject(delegation.error.message);
 
-      req.foundDelegator = delegator.result;
+      req.foundDelegation = delegation.result;
       return true;
     })
     .withMessage('notFound'),

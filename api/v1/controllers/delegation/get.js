@@ -4,8 +4,8 @@ const hexFieldsToDecimals = require('../../../../mixins/nodeRawRpcHexFieldsToDec
 
 module.exports = async (req, res, next) => {
   try {               
-   hexFieldsToDecimals(req.foundDelegator);
-   return res.json(okResp(req.foundDelegator));
+   hexFieldsToDecimals(req.foundDelegation);
+   return res.json(okResp(req.foundDelegation));
  }
  catch (err){
    console.log(err);

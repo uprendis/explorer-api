@@ -17,9 +17,9 @@ const getTransactions = require('../controllers/transaction/list.js');
 const getAccount = require('../controllers/account/get.js');
 const getAccounts = require('../controllers/account/list.js');
 
-// delegator
-const getDelegator = require('../controllers/delegator/get.js');
-const getDelegatorsByStaker = require('../controllers/delegator/getListByStaker.js');
+// delegation
+const getDelegation = require('../controllers/delegation/get.js');
+const getDelegationsByStaker = require('../controllers/delegation/getListByStaker.js');
 
 // staker
 const getStakerByAddress = require('../controllers/staker/getByAddress.js');
@@ -49,7 +49,7 @@ const validTrx = require('../middlewares/validators/transaction.js');
 const validAccount = require('../middlewares/validators/account.js');
 const validLatestData = require('../middlewares/validators/latestData.js');
 const validStaker = require('../middlewares/validators/staker.js');
-const validDelegator = require('../middlewares/validators/delegator.js');
+const validDelegation = require('../middlewares/validators/delegation.js');
 const validRPC = require('../middlewares/validators/rpc.js');
 
 ////////////
@@ -68,9 +68,9 @@ router.get('/get-transactions', validTrx.list(), getTransactions);
 router.get('/get-account', validAccount.get(), getAccount);
 router.get('/get-accounts', validAccount.list(), getAccounts);
 
-// delegator
-router.get('/delegator/address/:address', validDelegator.get(), getDelegator);
-router.get('/delegator/staker/:id', validDelegator.getListByStaker(), getDelegatorsByStaker);
+// delegation
+router.get('/delegation/address/:address', validDelegation.get(), getDelegation);
+router.get('/delegation/staker/:id', validDelegation.getListByStaker(), getDelegationsByStaker);
 
 // staker
 router.get('/staker/address/:address', validStaker.getByAddress(), getStakerByAddress);

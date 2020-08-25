@@ -3,8 +3,8 @@ const errors = require('../../../../mixins/errors');
 const brI18n = require('../../../../mixins/badRequestI18n');
 
 const acceptedMethods = [
-  'sfc_getDelegator',
-  'sfc_getDelegatorsOf',
+  'sfc_getDelegation',
+  'sfc_getDelegationsOf',
   'ftm_currentEpoch',
   'ftm_getEpochStats',
   'sfc_getStakers',
